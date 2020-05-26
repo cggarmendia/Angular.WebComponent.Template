@@ -1,0 +1,17 @@
+@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+$letterColor: white;
+$backColor: #fc0;
+
+.maincolor {
+    color: $letterColor;
+}
+
+.container{
+   background-color: $backColor;   
+   text-align:center;
+   margin: 0 auto;
+   width: 400px;
+   height: 300px;
+   padding: 20px;
+}

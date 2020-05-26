@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml" />
+  <Default Extension="psmdcp" ContentType="application/vnd.openxmlformats-package.core-properties+xml" />
+  <Default Extension="json" ContentType="application/octet" />
+  <Default Extension="yml" ContentType="application/octet" />
+  <Default Extension="js" ContentType="application/octet" />
+  <Default Extension="md" ContentType="application/octet" />
+  <Default Extension="sample" ContentType="application/octet" />
+  <Default Extension="idx" ContentType="application/octet" />
+  <Default Extension="pack" ContentType="application/octet" />
+  <Default Extension="ts" ContentType="application/octet" />
+  <Default Extension="ico" ContentType="application/octet" />
+  <Default Extension="html" ContentType="application/octet" />
+  <Default Extension="css" ContentType="application/octet" />
+  <Default Extension="scss" ContentType="application/octet" />
+  <Default Extension="gitkeep" ContentType="application/octet" />
+  <Default Extension="nuspec" ContentType="application/octet" />
+  <Override PartName="/browserslist" ContentType="application/octet" />
+  <Override PartName="/.git/config" ContentType="application/octet" />
+  <Override PartName="/.git/description" ContentType="application/octet" />
+  <Override PartName="/.git/FETCH_HEAD" ContentType="application/octet" />
+  <Override PartName="/.git/HEAD" ContentType="application/octet" />
+  <Override PartName="/.git/index" ContentType="application/octet" />
+  <Override PartName="/.git/info/exclude" ContentType="application/octet" />
+  <Override PartName="/.git/logs/HEAD" ContentType="application/octet" />
+  <Override PartName="/.git/logs/refs/remotes/origin/master" ContentType="application/octet" />
+  <Override PartName="/.git/refs/remotes/origin/master" ContentType="application/octet" />
+</Types>

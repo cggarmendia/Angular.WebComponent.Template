@@ -1,0 +1,105 @@
+pool:
+  name: alm-aws-pool
+  demands: npm
+
+variables:
+  ComponentName: 'ComponentName'
+
+steps:
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    verbose: false
+
+- task: Npm@1
+  displayName: 'npm custom'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'install node-sass'
+
+- task: Npm@1
+  displayName: 'npm custom'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'run build:pro'
+
+- script: set
+  displayName: 'Command Line Script'
+  
+- powershell: |
+   Write-Host "##vso[task.setvariable variable=PATH;]${env:PATH};C:\Program Files\Git\bin\"
+   Write-Host "##vso[task.setvariable variable=PATH;]${env:PATH};C:\Program Files\Git\cmd\"
+   $access_token = "$(System.AccessToken)"
+   $dst_dir = "$(Agent.TempDirectory)\$(Build.BuildId)"
+   
+   if ("$(Environment)" -like "*PRO*")
+   {
+   $repo = "https://vueling.visualstudio.com/Cross/_git/Vueling.Configuration.Config.PRO"
+   }
+   else
+   {
+   $repo = "https://vueling.visualstudio.com/Cross/_git/Vueling.Configuration.Config.PRE"
+   }
+   
+   Write-Host "Dowloading Configuration"
+   Write-Host "repo: $repo"
+   Write-Host "dst_dir: $dst_dir"
+   
+   if ([string]::IsNullOrEmpty($access_token))
+   {
+   Write-Error "Invalid access token." -ErrorAction Stop
+   }
+   
+   try {
+   New-Alias -Name git -Value "$Env:ProgramFiles\Git\bin\git.exe"
+   git -c http.extraheader="AUTHORIZATION: bearer $access_token" clone --single-branch -b $(ConfigBranch) -q $repo $dst_dir
+   Write-Host "Cloning finished"
+   }
+   catch {
+   $exmessage = $_.Exception.Message
+   Write-Error "Error Cloning repo: $repo. $exmessage " -ErrorAction Stop
+   }
+   
+   
+   $Path = "$dst_dir\SkySales\app.config"
+   
+   $XPath = "/configuration/custom/add[@name='ReleaseNumber']/@value"
+   $ReleaseNumber = (Select-Xml -Path $Path -XPath $Xpath | Select-Object -ExpandProperty Node).'#text'
+   "##vso[task.setvariable variable=ReleseaseID;]$ReleaseNumber"
+   
+   
+  displayName: 'Download Vueling.Configuration and set ReleaseNumber'
+
+- powershell: |
+   $angularJsonPath = "$(BUILD.REPOSITORY.LOCALPATH)/angular.json"
+   Write-Output "distFolderPath:$distFolderPath"
+   
+   $angularjson = Get-Content -Raw -Path $angularJsonPath | ConvertFrom-Json
+   Write-Output "angularjson:$angularjson"
+   $defaultProject = $angularjson.defaultProject;
+   
+   "##vso[task.setvariable variable=ComponentName;]$defaultProject"
+   Write-Output "ComponentName:$(ComponentName)"
+  displayName: 'Set ComponentName variable'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(AGENT.TEMPDIRECTORY)/$(BUILD.BUILDID)/'
+  inputs:
+    SourceFolder: '$(Build.Repository.LocalPath)/dist/'
+    Contents: '**/main*.js'
+    TargetFolder: '$(AGENT.TEMPDIRECTORY)/$(BUILD.BUILDID)/$(ReleseaseID)/skysales/angular/'
+
+- task: ArchiveFiles@2
+  displayName: 'Archive $(AGENT.TEMPDIRECTORY)/$(BUILD.BUILDID)/$(ReleseaseID)/skysales/angular/'
+  inputs:
+    rootFolderOrFile: '$(AGENT.TEMPDIRECTORY)/$(BUILD.BUILDID)/$(ReleseaseID)/'
+    includeRootFolder: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'Published Artifacts'
+
