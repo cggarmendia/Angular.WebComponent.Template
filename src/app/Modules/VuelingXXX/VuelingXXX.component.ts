@@ -4,12 +4,12 @@ import { LabelsProvider } from "../../Core/LabelsProvider.Service";
 import { ExternalEventManager } from "../../Core/ExternalEventManager.Service";
 
 @Component({
-  templateUrl: './VuelingXXX.component.html',
-  styleUrls: ['./VuelingXXX.component.scss'],
+  templateUrl: './TemplateXXX.component.html',
+  styleUrls: ['./TemplateXXX.component.scss'],
   providers: [SettingsProvider, LabelsProvider, ExternalEventManager]
 })
 
-export class VuelingXXX implements OnInit{	
+export class TemplateXXX implements OnInit{	
 	model: any = [];		
 	labels: any = [];
 	lang:string;	

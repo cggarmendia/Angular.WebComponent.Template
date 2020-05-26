@@ -4,27 +4,27 @@ import { createCustomElement } from "@angular/elements";
 import { HttpClientModule} from '@angular/common/http';
 import { ElementZoneStrategyFactory } from 'elements-zone-strategy';
 
-import { VuelingXXX } from './Modules/VuelingXXX/VuelingXXX.component';
+import { TemplateXXX } from './Modules/TemplateXXX/TemplateXXX.component';
 
 @NgModule({
-  declarations: [VuelingXXX],
+  declarations: [TemplateXXX],
   imports: [
 	BrowserModule, 
   HttpClientModule  
   ],
-  entryComponents: [VuelingXXX]  
+  entryComponents: [TemplateXXX]  
 })
 export class AppModule {
   constructor(private injector: Injector) {}
 
   ngDoBootstrap() {
 	  
-	const strategyFactory = new ElementZoneStrategyFactory(VuelingXXX, this.injector);
-	const entryCustomElement = createCustomElement(VuelingXXX, 
+	const strategyFactory = new ElementZoneStrategyFactory(TemplateXXX, this.injector);
+	const entryCustomElement = createCustomElement(TemplateXXX, 
 		{ 
 			injector: this.injector, 
 			strategyFactory 
 		});
-    customElements.define("vuelingxxx-markup", entryCustomElement);
+    customElements.define("templatexxx-markup", entryCustomElement);
   }
 }
