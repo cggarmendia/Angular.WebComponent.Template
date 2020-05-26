@@ -9,19 +9,26 @@
   <script>
       var TemplateXXXAngularModel = {
         settings : { staticStyles : "", lang : "en"},
-        viewModel : { appName : "Template", version: "1.0",someInformation : ""}
+        data : { 
+          appName : "Template", 
+          version: "1.0",
+          someInformation : "", 
+          price: 19.91, 
+          currencyCode: "EUR",
+          decimalSeparator: "."
+        }
       };   
   </script>
 </head>
-<body>
-  <h1 style="text-align: center;">Wellcome to the integration of Angular as WebComponent</h1>
-
-  <templatexxx-markup></templatexxx-markup>  
-  
-  <div style="background-color: gray;     text-align:center;  margin: 0 auto;  width: 360px;  height: 300px;  padding: 20px;">
-    <h2>Soy un componente que no esta hecho en Angular</h2>
-    <button onclick="triggerEventToAngularComponent()" style="margin: 10px;">try me</button>
-    <textarea id="estoyFueraDelComponente" style="margin: 0 auto;width: 100%;"></textarea>
+<body id="wrapper">
+  <template-xxx-markup></template-xxx-markup>  
+  <hr/>
+  <div style="text-align:center;  margin: 0 auto;  width: 360px;  height: 300px;  padding: 20px;">
+    <h2>Communicate with web component</h2>
+    <button onclick="triggerEventToAngularComponent()" style="margin: 10px;">Click and notify the component
+    </button>
+    <hr/>
+    <textarea id="foo" style="margin: 0 auto;width: 100%;"></textarea>
   </div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.4/polyfill.js"></script>
@@ -29,24 +36,26 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/zone.js/0.9.1/zone.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.2.10/custom-elements-es5-adapter.js"></script>
   <script>
-    function addEvent(htmlelement, eventName){        
+    function triggerEventToAngularComponent(){
+      var data = {dataProperty: "input for the web component"};
+      triggerEvent(document, "events.inputOfWebComponent", data);
+    } 
+
+    function triggerEvent(htmlelement, eventName, data){        
         var event = document.createEvent("HTMLEvents");
         event.initEvent(eventName, true, true);
         event.eventName = eventName;
+        event.detail = data;
         htmlelement.dispatchEvent(event);      
-    }    
+    }  
 
-    function triggerEventToAngularComponent(){
-      addEvent(document.getElementById("estoyDentroDelComponente"), "estoyEscuchandoJsNativo");
-    }
-    
     document.addEventListener("DOMContentLoaded", 
       function(){        
-        document.getElementById("estoyFueraDelComponente").addEventListener("meComunicoFueraDelComponente", function (event){
-          event.target.value = "He sido modificado por un componente hecho en angular"
+        document.addEventListener("events.outputOfWebComponent", function (event){
+          document.getElementById("foo").innerHTML = "This information comes from the web component: " + event.detail.dataProperty;
         });
       }
-    );    
+    ); 
   </script>
 </body>
 </html>

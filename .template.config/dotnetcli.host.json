@@ -1,0 +1,12 @@
+{
+  "symbolInfo": {
+    "componentName": {
+      "longName": "componentName",
+      "shortName": "cName"
+    },
+	"packageName": {
+      "longName": "packageName",
+      "shortName": "pName"
+    }
+  }
+}

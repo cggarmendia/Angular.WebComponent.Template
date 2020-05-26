@@ -1,4 +1,4 @@
-@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 $letterColor: white;
 $backColor: #fc0;
@@ -12,6 +12,16 @@ $backColor: #fc0;
    text-align:center;
    margin: 0 auto;
    width: 400px;
-   height: 300px;
+   height: 460px;
    padding: 20px;
+}
+
+textarea{
+  margin: 0 auto;
+  width: 100%;
+}
+
+
+.divPipe{ 
+  float: left;
 }

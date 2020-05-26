@@ -1,0 +1,27 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="maincolor container" >  
+  <h2>{{ labelsProvider.translate('title') }}</h2>  
+  <h3>
+    Aplicacion: {{ model.appName }}  {{ model.version }}
+  </h3>     
+  <button style="margin: 10px;" id="estoyDentroDelComponente" (click)="handleClick()" >
+    try me
+  </button>
+  <textarea>
+    {{ model.someInformation }}
+  </textarea>
+  <hr/>
+  <h5>
+    Angular Web Component - Pipes
+  </h5> 
+  <div class="divPipe">
+    {{ labelsProvider.translate('replaceTextLabel') | replaceText: ['hello world'] }}
+  </div>
+  <div class="divPipe">
+    Test customCurrency with currency code: <span [innerHtml]="getTextOfPriceWithCurrencyCode()"></span>
+  </div>
+  <div class="divPipe">
+    Test customCurrency without currency code: <span [innerHtml]="getTextOfPriceWithoutCurrencyCode()"></span>
+  </div>
+
+</div>
